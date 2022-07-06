@@ -1,0 +1,106 @@
+%! Author = matteorizzo
+%! Date = 06/07/22
+
+\documentclass{beamer}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{graphicx}
+\graphicspath{/Users/matteorizzo/IdeaProjects/Presentazione_INGSoftware/images/}
+\lstset{language=Java}
+\begin{document}
+    \title{Presentazione}
+    \author{Alex Marchi, Ivan Ravasi, Matteo Rizzo}
+    \date{\today}
+
+    \frame{\titlepage}
+
+    \frame{\frametitle{Table of contents}\tableofcontents}
+
+
+    \section{1-MODELLO-VISTA}
+    \frame{\frametitle{MODELLO-VISTA}
+      %inserire UML evidenziando separazione modello vista
+    }
+    \subsection{PROBLEMA DEL toString()}
+    \frame{\frametitle{PROBLEMA DEL toString()}
+        rimozione dei toString() dalle classi di dominio e aggiunti nelle classi di presentazione, in modo da
+        rendere completamente indipendente la vista dal modello aumentando il riuso.\par
+        Modello non deve mai dipendere da vista
+        %mostrare codice?
+    }
+    \subsection{PASSAGGIO DA MV A MVC}
+    \frame{\frametitle{PASSAGGIO DA MV A MVC}
+    precedente struttura M-V, controller erano GRASP, mentre ora estratti controller MVC  dalle view,
+    e fatti dialogare con controller GRASP (completa separazione MVC)
+    %inserire UML delle classi per mostrare differenza
+    \includegraphics[width=10]{}\quad\includegraphics[width=10]{}
+    }
+
+    \section{2-PATTERN GRASP}
+    \frame{\frametitle{PATTERN GRASP}
+    pattern grasp
+    }
+    \subsection{INFORMATION EXPERT }
+    \frame{\frametitle{INFORMATION EXPERT}
+        spostato il metodo SearchTree() dal Grasp Controller CategoryController alla classe di dominio Category.
+        %inserire codice
+    }
+    \subsection{CONTROLLER}
+    \frame{\frametitle{CONTROLLER PATTERN}
+        utilizzati controller Grasp come prima classe toccata dall'esterno, in questo modo il dominio non é
+        a contatto diretto con l'esterno
+      %mostrare UML evidenziando i grasp usati e mostrando che sono i primi toccati dalle altre classi,
+      %isolando la classe di dominio, permettendo di aumentare il riuso
+    }
+
+    \section{3-PRINCIPI SOLID}
+    \frame{\frametitle{PRINCIPI SOLID}
+    principi solid
+    }
+    \subsection{SINGLE RESPONSIBILITY}
+    \frame{\frametitle{SINGLE RESPONSIBILITY}
+        rimossa responsabilitá a viste, precedentemente avevano compito di presentazione e dialogo con i controller GRASP.
+        %mostrare con codice oppure diagramma UML
+    }
+    \subsection{DEPENDENCY INVERSION}
+    \frame{\frametitle{DEPENDENCY INVERSION}
+        Without title somethink is missing.
+    }
+
+    \section{4-PATTERN GoF}
+    \frame{\frametitle{PATTERN GoF}
+    principi solid
+    }
+    \subsection{CHAIN OF RESPONSIBILITY}
+    \frame{\frametitle{CHAIN OF RESPONSABILITY}
+        Without title somethink is missing.
+    }
+    \subsection{TEMPLATE METHOD}
+    \frame{\frametitle{TEMPLATE METHOD}
+        Without title somethink is missing.
+    }
+
+    \section{5-TESTING}
+    \frame{\frametitle{TESTING}
+    testing
+    }
+    \subsection{WHITE-BOX}
+    \frame{\frametitle{WHITE-BOX}
+        searchTree()
+    }
+    \subsection{BLACK-BOX}
+    \frame{\frametitle{BLACK-BOX}
+        testing salvataggio
+    }
+
+    \section{6-REFACTORING}
+    \frame{\frametitle{REFACTORING}
+    refactoring
+    }
+    \subsection{???}
+    \frame{
+       %categoryView
+    }
+
+
+\end{document}
