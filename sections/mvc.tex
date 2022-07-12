@@ -4,16 +4,29 @@
 
 \subsection{Rimozione \texttt{toString()} dalle classi di dominio}
 \begin{frame}[fragile]
-  \frametitle{Stato pre-refactor}
-  rimozione dei toString() dalle classi di dominio e aggiunti nelle classi di presentazione, in modo da
-  rendere completamente indipendente il modello dalla vista aumentando il riuso.\par
-  Modello non deve mai dipendere da vista
-  %mostrare codice originale
-  \begin{lstlisting}
-  public static void main() {
-    System.out.println();
+  \frametitle{Situazione pre-refactor}
+  \begin{lstlisting}[autogobble, title={\texttt{toString()} di \texttt{Article.java}}]
+  @Override
+  public String toString() {
+      StringBuilder sb = new StringBuilder();
+      sb.append(/* Articolo con ID, categoria, stato... */);
+      for (Map.Entry<String, String> field:
+            fields.entrySet()) {
+          sb.append(/* Campo con chiave, valore */);
+      }
+      return sb.toString();
   }
   \end{lstlisting}
+
+  \begin{itemize}
+    \item Il \emph{Model} dipende dalla \emph{View}
+    \begin{itemize}
+      \item Il \emph{Model} non è riusabile (presuppone una CLI come \emph{View})
+      \item Viola \textbf{Open-Closed Principle}
+      \item Viola \textbf{Single Responsibility Principle}
+    \end{itemize}
+    \item \texttt{toString()} dovrebbe essere usato a scopo di \emph{debug}, non per l'interfaccia
+  \end{itemize}
 \end{frame}
 
 \subsection{Estrazione dei Controller MVC dalle classi di presentazione}
