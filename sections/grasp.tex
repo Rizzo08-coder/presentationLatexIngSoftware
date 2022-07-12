@@ -16,7 +16,7 @@
         \includegraphics[width=1\textwidth]{img/sequenzaGraspController.png}
     \end{figure}
     \begin{itemize}
-        \item É il primo oggetto che riceve richieste dalla UI (\emph{ArticleView}) e interagisce con il dominio
+        \item \emph{ArticleController} é il primo oggetto che riceve richieste dalla UI (\emph{ArticleView}) e interagisce con il dominio
     \end{itemize}
 \end{frame}
 
@@ -27,18 +27,18 @@
     \begin{frame} [fragile]
       \frametitle{Information Expert}
         \begin{lstlisting}[autogobble, title={\texttt{CategoryController.java}}]
-            private Category searchTree(Category category, String name) {
-        for (Map.Entry<String, Category> child : category.getChildren().entrySet()) {
-            if (child.getValue().getName().equalsIgnoreCase(name)) {
-                return child.getValue();
-            } else if (!child.getValue().isLeaf()) {
-                if (searchTree(child.getValue(), name) != null) {
-                    return searchTree(child.getValue(), name);
-                }
-            }
+    private Category searchTree(Category category, String name){
+     for (var child : category.getChildren().entrySet()) {
+      if (child.getValue().getName().equalsIgnoreCase(name)) {
+       return child.getValue();
+      }else if (!child.getValue().isLeaf()) {
+        if (searchTree(child.getValue(), name) != null) {
+        return searchTree(child.getValue(), name);
         }
-        return null;
-      }
+       }
+     }
+    return null;
+    }
         \end{lstlisting}
       \begin{itemize}
           \item Questo codice viola \emph{Information Expert} perché
