@@ -57,12 +57,14 @@
    }
 
    protected <T> String renderAll(Collection<T> collection) {
-        return collection.stream().map(this::render).collect(Collectors.joining("\n"));
+        return collection.stream().map(this::render)
+                         .collect(Collectors.joining("\n"));
    }
   \end{lstlisting}
     \begin{itemize}
-        \item Il metodo \texttt{render(...)} é messo a disposizione delle \emph{View} concrete
-        \item \texttt{DefaultRenderer} fa da renderer \emph{catch-all} attraverso toString()  di Object
+        \item \texttt{render(...)} è a disposizione delle \emph{View} concrete.
+        \item \texttt{DefaultRenderer} fa da renderer \emph{catch-all}
+        attraverso il \texttt{toString()} di \texttt{Object}.
     \end{itemize}
 \end{frame}
 
