@@ -5,6 +5,8 @@ principi solid
 \frame{\frametitle{Chain of Responsibility}
     Without title somethink is missing.
 }
+
+\subsection{Template Method}
 \begin{frame}
     \frametitle{Template Method}
     \begin{figure}
@@ -35,14 +37,15 @@ principi solid
     \end{itemize}
 \end{frame}
 
-\frametitle{Uso}
-  \begin{lstlisting}[autogobble, title={\texttt{ArticleMVController.java}}]
-    @Override
-    protected AbstractView getView() { return articleView; }
+\begin{frame} [fragile]
+ \frametitle{Uso}
+   \begin{lstlisting}[autogobble, title={\texttt{ArticleMVController.java}}]
+     @Override
+     protected AbstractView getView() { return articleView; }
 
-    @Override
-    protected LinkedHashMap<String, Runnable> getMenuOptions(User user) {
-        //implementazione specifica ...
-    }
-  \end{lstlisting}
+     @Override
+     protected LinkedHashMap<String, Runnable> getMenuOptions(User user) {
+         //implementazione specifica ...
+     }
+   \end{lstlisting}
 \end{frame}
