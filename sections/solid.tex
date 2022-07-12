@@ -1,11 +1,42 @@
-\frame{\frametitle{Principi SOLID}
-principi solid
-}
 \subsection{Single Responsibility}
-\frame{\frametitle{Single Responsibility}
-    rimossa responsabilitá a viste, precedentemente avevano compito di presentazione e dialogo con i controller GRASP.
-    %mostrare con codice oppure diagramma UML
+\frame{\frametitle{Single Responsibility - 1° caso}
+    \begin{figure}
+        \includegraphics[width=0.8\textwidth]{img/MV.png}
+    \end{figure}
+    Le classi dello strato di presentazione avevano 2 compiti:
+    \begin{enumerate}
+        \item Gestire le operazioni di input e di presentazione dei dati
+        \item Dialogare con lo strato di dominio
+    \end{enumerate}
+
+    Soluzione: \textbf{estrarre i controller MVC dalle viste}.
 }
+
+\begin{frame}[fragile]
+    \frametitle{Single Responsibility - 2° caso}
+    \begin{lstlisting}[autogobble, title={\texttt{toString()} di \texttt{Article.java}}]
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(/* Articolo con ID, categoria, stato... */);
+        for (Map.Entry<String, String> field:
+              fields.entrySet()) {
+            sb.append(/* Campo con chiave, valore */);
+        }
+        return sb.toString();
+    }
+    \end{lstlisting}
+
+    Ogni classe dello stato di dominio ha 2 responsabilità:
+    \begin{enumerate}
+        \item Relativa alle operazioni di dominio per quella classe
+        \item Relativa alla presentazione di quella classe (\texttt{toString()})
+    \end{enumerate}
+
+    Soluzione: \textbf{rimuovere i toString()} e \textbf{gestire la \emph{renderizzazione} dei dati di dominio
+    attraverso delle classi dedicate con interfaccia comune}.
+\end{frame}
+
 \subsection{Dependency Inversion}
 \frame{\frametitle{Dependency Inversion}
     Without title somethink is missing.
