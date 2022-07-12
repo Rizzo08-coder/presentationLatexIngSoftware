@@ -1,8 +1,3 @@
-
-\frame{\frametitle{Separazione Modello-Vista}
-  %inserire UML evidenziando separazione modello vista
-}
-
 \subsection{Rimozione \texttt{toString()} dalle classi di dominio}
 \begin{frame}[fragile]
   \frametitle{Situazione pre-refactor}
@@ -82,61 +77,87 @@
     \end{itemize}
 \end{frame}
 
-
 \subsection{Estrazione dei Controller MVC dalle classi di presentazione}
 \begin{frame}
-    \frametitle{MV $\to$ MVC}
+  \frametitle{MV o MVC?}
+  \begin{figure}
+    \includegraphics[width=0.8\textwidth]{img/MV.png}
+  \end{figure}
+
+  La struttura precedente {\color{red}non era un vero MVC}:
+  \begin{itemize}
+    \item I \emph{Controller} non erano dei controller MVC, ma dei \textbf{Controller GRASP}.
     \begin{itemize}
-        \item prima del refactor struttura con separazione modello-vista
+      \item Facevano da \textbf{Facade} verso lo strato di business.
+      \item Si trattava di \emph{Model}.
     \end{itemize}
-    \begin{figure}
-        \includegraphics[width=1\textwidth]{img/modello-vista_before.png}
-    \end{figure}
+    \item Le \emph{View} integravano il tipico comportamento dei \emph{Controller MVC} (dialogare
+    con il dominio):
     \begin{itemize}
-        \item \emph{ArticleController } é un \emph{Controller Grasp Facade}, che delega tutte le operazioni da \emph{ArticleView} a \emph{Article}
+      \item Violazione di \textbf{Single Responsibility Principle}.
+      \item Classi di notevole dimensione.
+      \item Violazione di \textbf{Low Coupling}.
     \end{itemize}
+  \end{itemize}
 \end{frame}
 
 \begin{frame} [fragile]
-    \frametitle{MV $\to$ MVC}
+    \frametitle{View e Model (GRASP Controller)}
     \begin{lstlisting}[autogobble, title={\texttt{ArticleController.java}}]
-     public final Map<Integer, Article> articles;
-     public ArticleController(...) {
+    public final Map<Integer, Article> articles;
+    public ArticleController(...) {
         articles = saves.getArticles();
         //...
-     }
+    }
     \end{lstlisting}
     \begin{lstlisting}[autogobble, title={\texttt{ArticleView.java}}]
-     private final ArticleController articleController;
-     public ArticleView(...) {
+    private final ArticleController articleController;
+    public ArticleView(...) {
         articleController = new ArticleController(...);
         //...
-     }
-
+    }
     \end{lstlisting}
 \end{frame}
 
 \begin{frame}
-    \frametitle{MV $\to$ MVC}
+  \frametitle{Soluzione - MV $\to$ MVC}
+  \begin{figure}
+    \includegraphics[width=0.6\textwidth]{img/MVC.png}
+  \end{figure}
+
+  In che modo?
+  \begin{itemize}
+    \item Rifattorizzando le \emph{View} per estrarre i \textbf{\emph{controller MVC}}.
+    \item I \emph{Controller MVC} estratti avranno associati:
+    \begin{itemize}
+      \item Le \emph{View} che ora si occuperanno di solo I/O.
+      \item I \emph{Controller GRASP} già allestiti che continueranno
+      il loro ruolo di \textbf{Facade} verso lo strato di business.
+    \end{itemize}
+    \item I \emph{Controller MVC} estratti coordineranno le \emph{View} e i \emph{Model}:
+    \begin{itemize}
+      \item Si aggiunge \emph{indirezione} (\textbf{Indirection}).
+      \item Si riduce l'accoppiamento (\textbf{Low Coupling}).
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{MV $\to$ MVC - con classi astratte per riuso}
     \begin{figure}
         \includegraphics[width=0.8\textwidth]{img/modello-vista_after.png}
     \end{figure}
 \end{frame}
 
 \begin{frame} [fragile]
-    \frametitle{MV $\to$ MVC}
-    \begin{itemize}
-        \item \emph{ArticleController} é ancora un \emph{controller GRASP}, peró ora collabora con \emph{ArticleMVController}
-        che fa parte dell'UI e gestisce l'interazione con l'utente.
-        \item É stata aumentata indirezione e aggiunta maggiore possibilitá di riutilizzo del dominio
-    \end{itemize}
+    \frametitle{Il nuovo controller MVC}
     \begin{lstlisting}[autogobble, title={\texttt{ArticleMVController.java}}]
-     private final ArticleController articleController;
-     private final ArticleView articleView;
-     public ArticleMVController(...) {
-       articleController = new ArticleController(...);
-       articleView = new ArticleView(...);
-       //...
-     }
+    private final ArticleController articleController;
+    private final ArticleView articleView;
+    public ArticleMVController(...) {
+      articleController = new ArticleController(...);
+      articleView = new ArticleView(...);
+      //...
+    }
     \end{lstlisting}
 \end{frame}
