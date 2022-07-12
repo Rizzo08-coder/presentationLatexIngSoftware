@@ -30,20 +30,56 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{Soluzione con Chain of Responsibility}
+    \frametitle{Soluzione con Chain of Responsibility}
+    \begin{enumerate}
+        \item Definire una \emph{Chain of Responsibility} responsabile della conversione degli oggetti
+        di dominio nelle loro rappresentazioni testuali.
+        \item Creare un'associazione dalla \emph{view} astratta alla \emph{Chain of Responsibility}.
+        \item Fornire tramite la \emph{view} astratta un metodo \texttt{render(...)}.
+    \end{enumerate}
 
-  Soluzione adottata:
-  \begin{enumerate}
-    \item Definire una \emph{Chain of Responsibility} responsabile della conversione degli oggetti
-    di dominio nelle loro rappresentazioni testuali.
-    \item Creare un'associazione dalla \emph{view} astratta alla \emph{Chain of Responsibility}.
-    \item Fornire tramite la \emph{view} astratta un metodo \texttt{render(obj: Object): String}.
-  \end{enumerate}
-
-  \begin{figure}
-    \includegraphics[width=0.8\textwidth]{img/chain.png}
-  \end{figure}
+    \begin{figure}
+        \includegraphics[width=0.8\textwidth]{img/chain.png}
+    \end{figure}
 \end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Uso}
+  \begin{lstlisting}[autogobble, title={\texttt{AbstractView.java}}]
+   private final AbstractRenderer chain = new ArticleRenderer(
+                                 new CategoryRenderer(
+                                 new ConfigRenderer(
+                                 new ExchangeRenderer(
+                                 new DefaultRenderer(null)))));
+
+   protected String render(Object o) {
+        return chain.render(o);
+   }
+
+   protected <T> String renderAll(Collection<T> collection) {
+        return collection.stream().map(this::render).collect(Collectors.joining("\n"));
+   }
+  \end{lstlisting}
+    \begin{itemize}
+        \item Il metodo \texttt{render(...)} é messo a disposizione delle \emph{View} concrete
+        \item \texttt{DefaultRenderer} fa da renderer \emph{catch-all} attraverso toString()  di Object
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Miglioramento con Set Of Responsibility}
+    \begin{enumerate}
+        \item Definire una \emph{Chain of Responsibility} responsabile della conversione degli oggetti
+        di dominio nelle loro rappresentazioni testuali.
+        \item Creare un'associazione dalla \emph{view} astratta alla \emph{Chain of Responsibility}.
+        \item Fornire tramite la \emph{view} astratta un metodo \texttt{render(...)}.
+    \end{enumerate}
+
+    \begin{figure}
+        \includegraphics[width=0.8\textwidth]{img/chain.png}
+    \end{figure}
+\end{frame}
+
 
 \subsection{Estrazione dei Controller MVC dalle classi di presentazione}
 \frame{\frametitle{MV $\to$ MVC}
