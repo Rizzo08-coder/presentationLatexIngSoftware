@@ -14,8 +14,35 @@ principi solid
             \includegraphics[width=0.5\textwidth]{img/templateMethod_Save.png}
         \end{multicols}
     \end{figure}
+\end{frame}
+
+\begin{frame} [fragile]
+    \frametitle{Uso}
+    \begin{lstlisting}[autogobble, title={\texttt{AbstractMVController.java}}, morekeywords={getView, getMenuOptions}]
+    public void execute(User user) {
+        //...
+        getView();
+        //...
+        getMenuOptions():
+        //...
+    }
+    protected abstract LinkedHashMap<String, Runnable> getMenuOptions(User user);
+    protected abstract AbstractView getView();
+    \end{lstlisting}
     \begin{itemize}
-        \item Metodo Template \texttt{execute(...)} definito e implementato da classe padre astratta
-        \item Metodi di gancio \texttt{getMenuOptions()} e \texttt{getView()} implementati nelle classi figlie con un comportamento specifico
+        \item \texttt{execute(...)} é un metodo Template definito e implementato da \emph{AbstractMVController}
+        \item \texttt{getMenuOptions()} e \texttt{getView()} metodi di gancio implementati nella classe figlia \emph{ArticleMVController} con un comportamento specifico
     \end{itemize}
+\end{frame}
+
+\frametitle{Uso}
+  \begin{lstlisting}[autogobble, title={\texttt{ArticleMVController.java}}]
+    @Override
+    protected AbstractView getView() { return articleView; }
+
+    @Override
+    protected LinkedHashMap<String, Runnable> getMenuOptions(User user) {
+        //implementazione specifica ...
+    }
+  \end{lstlisting}
 \end{frame}
