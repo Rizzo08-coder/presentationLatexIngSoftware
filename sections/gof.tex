@@ -1,12 +1,60 @@
-\frame{\frametitle{Pattern GoF}
-principi solid
-}
 \subsection{Chain of Responsibility}
-\frame{\frametitle{Chain of Responsibility}
-    Without title somethink is missing.
-    %aTODO: diagramma di sequenza
-}
+\begin{frame}
+    \frametitle{Chain of Responsibility}
+    \begin{enumerate}
+        \item Definita una \emph{Chain of Responsibility} per la conversione degli oggetti
+        di dominio nelle loro rappresentazioni testuali.
+        \item La \emph{Chain of Responsibility} è creata e gestita dalla \emph{View} astratta,
+        che fornisce alle sottoclassi un metodo \texttt{render(...)}.
+    \end{enumerate}
 
+    \begin{figure}
+        \includegraphics[width=0.8\textwidth]{img/chain.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{Uso}
+  \begin{lstlisting}[autogobble, title={\texttt{AbstractView.java}}]
+   private final AbstractRenderer chain = new ArticleRenderer(
+                                 new CategoryRenderer(
+                                 new ConfigRenderer(
+                                 new ExchangeRenderer(
+                                 new DefaultRenderer(null)))));
+
+   protected String render(Object o) {
+        return chain.render(o);
+   }
+
+   protected <T> String renderAll(Collection<T> collection) {
+        return collection.stream().map(this::render)
+                         .collect(Collectors.joining("\n"));
+   }
+  \end{lstlisting}
+    \begin{itemize}
+        \item \texttt{render(...)} è a disposizione delle \emph{View} concrete.
+        \item \texttt{DefaultRenderer} fa da renderer \emph{catch-all}
+        attraverso il \texttt{toString()} di \texttt{Object}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Miglioramento con Set Of Responsibility}
+
+    \begin{figure}
+        \includegraphics[width=0.7\textwidth]{img/setofresponsibility.png}
+    \end{figure}
+    \begin{itemize}
+      \item Nessun renderer è ``più uguale degli altri''.
+      \item Il caso \emph{catch-all} è definito dal creatore del set di renderer.
+      \item La responsabilità di creare il set è di \texttt{SetRenderer}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Esecuzione}
+    % TODO: Sequence Diagram
+\end{frame}
 
 \subsection{Template Method}
 \begin{frame}

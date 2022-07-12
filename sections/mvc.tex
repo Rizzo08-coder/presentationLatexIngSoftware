@@ -63,20 +63,7 @@
     \begin{itemize}
         \item \texttt{render(...)} è a disposizione delle \emph{View} concrete.
         \item \texttt{DefaultRenderer} fa da renderer \emph{catch-all}
-        attraverso il \texttt{toString()} di \texttt{Object}.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{Miglioramento con Set Of Responsibility}
-
-    \begin{figure}
-        \includegraphics[width=0.7\textwidth]{img/setofresponsibility.png}
-    \end{figure}
-    \begin{itemize}
-      \item Nessun renderer è ``più uguale degli altri''.
-      \item Il caso \emph{catch-all} è definito dal creatore del set di renderer.
-      \item La responsabilità di creare il set è di \texttt{SetRenderer}.
+        attraverso il \texttt{toString()} di \texttt{Object} \footnote{Possibile punto di miglioramento}.
     \end{itemize}
 \end{frame}
 
