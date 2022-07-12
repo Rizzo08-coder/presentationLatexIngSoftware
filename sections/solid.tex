@@ -38,6 +38,97 @@
 \end{frame}
 
 \subsection{Dependency Inversion}
-\frame{\frametitle{Dependency Inversion}
-    Without title somethink is missing.
-}
+\begin{frame}
+    \frametitle{Dependency Inversion}
+    Utilizzato in 3 casi diversi:
+    \begin{itemize}
+        \item Classe wrapper per la persistenza (\texttt{Saves}).
+        \item Classe con metodi statici di input da CLI (\texttt{InputDati}).
+        \item Classe orologio usata per lo scambio (\texttt{Clock}).
+    \end{itemize}
+    Vantaggi generali:
+    \begin{itemize}
+        \item {\color{green}Testing più facile} tramite oggetti \emph{mock}.
+        \item {\color{green}Flessibilità} per sviluppi futuri.
+    \end{itemize}
+    Vediamo ora questi differenti casi più nel dettaglio.
+\end{frame}
+
+\begin{frame}
+    \frametitle{DI - \texttt{Saves} $\to$ \texttt{DataContainer}}
+    \texttt{Saves} era già stata oggetto di \emph{Dependency Injection} precedentemente al refactor.
+    {\color{green}Vantaggi}:
+    \begin{itemize}
+        \item {\color{green}Dipendenza esplicita} in ogni classe che la usa, che la richiede eventualmente sino al \texttt{Main}
+        (entrypoint dell'applicazione).
+        \item Spostamento delle implementazioni alla periferia del sistema, per una più {\color{green}facile configurabilità}.
+    \end{itemize}
+
+    Ma:
+    \begin{itemize}
+        \item Era una {\color{red}classe concreta}, per ottenere configurabilità serve che le classi \emph{dipendano da astrazioni}
+        (\textbf{Dependency Inversion})
+        \item I nomi dei file erano {\color{red}\emph{hardcoded}} all'interno di \texttt{Saves}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{DI - \texttt{Saves} $\to$ \texttt{DataContainer}}
+    \textbf{Soluzione}:
+    \begin{itemize}
+        \item Creazione di un'interfaccia \texttt{DataContainer} per applicare \emph{Dependency Inversion}.
+        \item Uso di un file \texttt{system.properties} per definire i nomi dei file di salvataggio
+        (così abbiamo \textbf{Protected Variation}).
+    \end{itemize}
+    Bisogna solo sostituire i parametri nei costruttori e le proprietà con la nuova astrazione.
+    \begin{itemize}
+        \item Per il testing automatico è stato usato un \texttt{mock} di \texttt{DataContainer} che non gestisce
+        la persistenza: \texttt{InMemoryDataContainer}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{DI - \texttt{InputDati} $\to$ \texttt{InputProvider}}
+    \texttt{unibs.ing.fp.mylib.InputDati} è una classe di comodo con metodi statici per l'input
+    da CLI, estesa di tanto in tanto con ulteriori metodi.
+
+    \textbf{Problemi}:
+    \begin{itemize}
+        \item {\color{red}$\approx$ \textbf{Singleton}}, rendendo il testing molto difficile.
+        \item E se non è più una CLI?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{DI - \texttt{InputDati} $\to$ \texttt{InputProvider}}
+    \textbf{Soluzione}:
+    \begin{enumerate}
+        \item Trasformazione dei metodi statici di input in metodi d'istanza.
+        \item Creazione di un'interfaccia attorno a \texttt{InputDati}: \texttt{InputProvider}.
+    \end{enumerate}
+    \begin{itemize}
+        \item \texttt{InputProvider} viene impostato tramite \emph{Dependency Injection} a partire dal \emph{Main}
+        ed è un attributo \texttt{protected} di \texttt{AbstractView}.
+        \item Per il testing automatico è stato approntato un \emph{Mock} di \texttt{InputProvider} che usa delle code
+        di valori da consumare progressivamente (\texttt{QueueInputProvider}).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{DI - \texttt{Clock}}
+    \textbf{Problema}:
+    \begin{itemize}
+        \item Il testing automatico del flusso di scambio è {\color{red}\emph{time-dependent}}.
+    \end{itemize}
+    \textbf{Soluzione}:
+    \begin{itemize}
+        \item Derivare l'ora in \texttt{Exchange} a partire da un'implementazione di \texttt{Clock}
+        fornita tramite \emph{Dependency Injection}.
+    \end{itemize}
+    \textbf{Vantaggi}:
+    \begin{itemize}
+        \item La configurazione dell'orologio usato dall'applicazione è alla sua periferia
+        ({\color{green}facile configurazione}, ad es. del fuso orario tramite \texttt{system.properties}).
+        \item {\color{green}Il testing automatico diventa deterministico} fornendo un orologio fisso con \texttt{Clock.fixed(...)}
+    \end{itemize}
+\end{frame}
