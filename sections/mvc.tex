@@ -66,18 +66,17 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]
+\begin{frame}
     \frametitle{Miglioramento con Set Of Responsibility}
-    \begin{enumerate}
-        \item Definire una \emph{Chain of Responsibility} responsabile della conversione degli oggetti
-        di dominio nelle loro rappresentazioni testuali.
-        \item Creare un'associazione dalla \emph{view} astratta alla \emph{Chain of Responsibility}.
-        \item Fornire tramite la \emph{view} astratta un metodo \texttt{render(...)}.
-    \end{enumerate}
 
     \begin{figure}
-        \includegraphics[width=0.8\textwidth]{img/chain.png}
+        \includegraphics[width=0.7\textwidth]{img/setofresponsibility.png}
     \end{figure}
+    \begin{itemize}
+      \item Nessun renderer è ``più uguale degli altri''.
+      \item Il caso \emph{catch-all} è definito dal creatore del set di renderer.
+      \item La responsabilità di creare il set è di \texttt{SetRenderer}.
+    \end{itemize}
 \end{frame}
 
 
