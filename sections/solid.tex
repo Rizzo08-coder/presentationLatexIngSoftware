@@ -70,6 +70,9 @@
         (\textbf{Dependency Inversion})
         \item I nomi dei file erano {\color{red}\emph{hardcoded}} all'interno di \texttt{Saves}.
     \end{itemize}
+    \begin{figure}
+        \includegraphics[width=0.8\textwidth]{img/dependencyInversion_before.png}
+    \end{figure}
 \end{frame}
 
 \begin{frame}
@@ -85,6 +88,9 @@
         \item Per il testing automatico è stato usato un \texttt{mock} di \texttt{DataContainer} che non gestisce
         la persistenza: \texttt{InMemoryDataContainer}.
     \end{itemize}
+    \begin{figure}
+        \includegraphics[width=0.8\textwidth]{img/dependencyInversion_after.png}
+    \end{figure}
 \end{frame}
 
 \begin{frame}
