@@ -63,8 +63,9 @@ principi solid
     \frametitle{Uso}
     \begin{lstlisting}[autogobble, title={\texttt{AbstractMVController.java}}, morekeywords={beforeExecute, getView, getMenuOptions}]
     public void execute(User user) {
-        if(beforeExecute())
+        if(!beforeExecute()){
         //...
+        }
         getView();
         //...
         getMenuOptions();
@@ -76,7 +77,7 @@ principi solid
     \end{lstlisting}
     \begin{itemize}
         \item \texttt{execute(...)} é un metodo Template definito e implementato da \emph{AbstractMVController}
-        \item \texttt{getMenuOptions()},\texttt{getView()} e \texttt{beforeExecute()} metodi di gancio implementati nella classe figlia \emph{ArticleMVController} con un comportamento specifico
+        \item \texttt{beforeExecute()}, \texttt{getView()} e \texttt{getMenuOptions()} metodi di gancio implementati nella classe figlia \emph{ArticleMVController} con un comportamento specifico
     \end{itemize}
 \end{frame}
 
@@ -94,4 +95,7 @@ principi solid
          //implementazione specifica ...
      }
    \end{lstlisting}
+    \begin{itemize}
+        \item \texttt{beforeExecute()} ritorna \texttt{true} se deve continuare l'esecuzione e mostrare il menú, \texttt{false} altrimenti
+    \end{itemize}
 \end{frame}

@@ -1,3 +1,4 @@
+
 \frame{\frametitle{Separazione Modello-Vista}
   %inserire UML evidenziando separazione modello vista
 }
@@ -83,8 +84,59 @@
 
 
 \subsection{Estrazione dei Controller MVC dalle classi di presentazione}
-\frame{\frametitle{MV $\to$ MVC}
-precedente struttura M-V, controller erano GRASP, mentre ora estratti controller MVC  dalle view,
-e fatti dialogare con controller GRASP (completa separazione MVC)
-%inserire UML delle classi per mostrare differenza
-}
+\begin{frame}
+    \frametitle{MV $\to$ MVC}
+    \begin{itemize}
+        \item prima del refactor struttura con separazione modello-vista
+    \end{itemize}
+    \begin{figure}
+        \includegraphics[width=1\textwidth]{img/modello-vista_before.png}
+    \end{figure}
+    \begin{itemize}
+        \item \emph{ArticleController } é un \emph{Controller Grasp Facade}, che delega tutte le operazioni da \emph{ArticleView} a \emph{Article}
+    \end{itemize}
+\end{frame}
+
+\begin{frame} [fragile]
+    \frametitle{MV $\to$ MVC}
+    \begin{lstlisting}[autogobble, title={\texttt{ArticleController.java}}]
+     public final Map<Integer, Article> articles;
+     public ArticleController(...) {
+        articles = saves.getArticles();
+        //...
+     }
+    \end{lstlisting}
+    \begin{lstlisting}[autogobble, title={\texttt{ArticleView.java}}]
+     private final ArticleController articleController;
+     public ArticleView(...) {
+        articleController = new ArticleController(...);
+        //...
+     }
+
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \frametitle{MV $\to$ MVC}
+    \begin{figure}
+        \includegraphics[width=0.8\textwidth]{img/modello-vista_after.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame} [fragile]
+    \frametitle{MV $\to$ MVC}
+    \begin{itemize}
+        \item \emph{ArticleController} é ancora un \emph{controller GRASP}, peró ora collabora con \emph{ArticleMVController}
+        che fa parte dell'UI e gestisce l'interazione con l'utente.
+        \item É stata aumentata indirezione e aggiunta maggiore possibilitá di riutilizzo del dominio
+    \end{itemize}
+    \begin{lstlisting}[autogobble, title={\texttt{ArticleMVController.java}}]
+     private final ArticleController articleController;
+     private final ArticleView articleView;
+     public ArticleMVController(...) {
+       articleController = new ArticleController(...);
+       articleView = new ArticleView(...);
+       //...
+     }
+    \end{lstlisting}
+\end{frame}
