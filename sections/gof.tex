@@ -5,7 +5,17 @@ principi solid
 \frame{\frametitle{Chain of Responsibility}
     Without title somethink is missing.
 }
-\subsection{Template method}
-\frame{\frametitle{Template method}
-    Without title somethink is missing.
-}
+\begin{frame}
+    \frametitle{Template Method}
+    \begin{figure}
+        \begin{multicols} {2}
+            \includegraphics[width=0.5\textwidth]{img/templateMethod_Controller.png}
+            \columnbreak
+            \includegraphics[width=0.5\textwidth]{img/templateMethod_Save.png}
+        \end{multicols}
+    \end{figure}
+    \begin{itemize}
+        \item Metodo Template \texttt{execute(...)} definito e implementato da classe padre astratta
+        \item Metodi di gancio \texttt{getMenuOptions()} e \texttt{getView()} implementati nelle classi figlie con un comportamento specifico
+    \end{itemize}
+\end{frame}
