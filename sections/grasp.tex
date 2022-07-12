@@ -27,42 +27,44 @@
     \begin{frame} [fragile]
       \frametitle{Information Expert}
         \begin{lstlisting}[autogobble, title={\texttt{CategoryController.java}}]
-    private Category searchTree(Category category, String name){
-     for (var child : category.getChildren().entrySet()) {
-      if (child.getValue().getName().equalsIgnoreCase(name)) {
-       return child.getValue();
-      }else if (!child.getValue().isLeaf()) {
-        if (searchTree(child.getValue(), name) != null) {
-        return searchTree(child.getValue(), name);
+        private Category searchTree(Category category, String name){
+          for (var child : category.getChildren().entrySet()) {
+            if (child.getValue().getName().equalsIgnoreCase(name)) {
+              return child.getValue();
+            } else if (!child.getValue().isLeaf()) {
+              if (searchTree(child.getValue(), name) != null) {
+                return searchTree(child.getValue(), name);
+              }
+            }
+          }
+          return null;
         }
-       }
-     }
-    return null;
-    }
         \end{lstlisting}
       \begin{itemize}
-          \item Questo codice viola \emph{Information Expert} perché
-          viene passato come parametro l'intera classe \emph{Category}, quindi sarebbe meglio
-          mettere le responsabilitá dove sono contenuti i dati, ovvero in \emph{Category}
-          \item Lo si nota anche dai molti \texttt{get...()} presenti
+        \item L'assegnazione della responsabilità di ricercare all'interno dell'albero delle categorie
+        secondo \textbf{Information Expert} andrebbe assegnata alla classe \texttt{Category}, per ridurre
+        l'accoppiamento e garantire l'\emph{incapsulamento}.
+        \item Così non è: la responsabilità è di \texttt{CategoryController}.
+        \item \emph{Code smell}: il codice utilizza molti \emph{getter} di \texttt{Category}.
       \end{itemize}
     \end{frame}
 
 \begin{frame} [fragile]
     \frametitle{Information Expert}
     \begin{lstlisting}[autogobble, title={\texttt{Category.java}}]
-        public Category searchTree(String categoryName) {
-        if (this.name.equalsIgnoreCase(categoryName)) return this;
-        if (isLeaf()) return null;
-        for (Category child : children.values()) {
-            Category lookup = child.searchTree(categoryName);
-            if (lookup != null) return lookup;
+        public Category searchTree(Strign catName) {
+            if (this.name.equalsIgnoreCase(catName)) return this;
+            for (Category child : children.values()) {
+                Category lookup = child.searchTree(catName);
+                if (lookup != null) return lookup;
+            }
+            return null;
         }
-        return null;
-    }
     \end{lstlisting}
+    Vantaggi:
     \begin{itemize}
-        \item Si puó notare che sono diminuiti i parametri del metodo, questo aiuta anche la comprensione dello stesso
-        \item Non abbiamo piú tutti i \texttt{get...()} che utilizzavamo prima
+        \item Sono diminuiti i parametri del metodo: {\color{green}minore accoppiamento} e {\color{green}migliore comprensibilità}.
+        \item Non abbiamo piú tutti i \emph{getter} di prima: {\color{green}miglior incapsulamento}.
     \end{itemize}
+    All'interno di \texttt{CategoryController} rimane una delega al metodo \texttt{searchTree(...)} di \texttt{Category}.
 \end{frame}
