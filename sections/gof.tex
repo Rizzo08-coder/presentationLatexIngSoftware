@@ -1,10 +1,9 @@
 \frame{\frametitle{Pattern GoF}
 principi solid
 }
-
 \subsection{Chain of Responsibility}
 \frame{\frametitle{Chain of Responsibility}
-Without title somethink is missing.
+    Without title somethink is missing.
 }
 
 %commento
@@ -13,11 +12,10 @@ Without title somethink is missing.
 \begin{frame}
     \frametitle{Template Method}
     \begin{figure}
-         
         \begin{multicols} {2}
-            \includegraphics[width=0.50\textwidth]{img/templateMethodController.png}
+            \includegraphics[width=0.55\textwidth]{img/templateMethodController.png}
             \columnbreak
-            \includegraphics[width=0.50\textwidth]{img/templateMethodSave.png}
+            \includegraphics[width=0.55\textwidth]{img/templateMethodSave.png}
         \end{multicols}
     \end{figure}
 \end{frame}
@@ -42,8 +40,8 @@ Without title somethink is missing.
 \end{frame}
 
 \begin{frame} [fragile]
-    \frametitle{Uso}
-    \begin{lstlisting}[autogobble, title={\texttt{ArticleMVController.java}}]
+ \frametitle{Uso}
+   \begin{lstlisting}[autogobble, title={\texttt{ArticleMVController.java}}]
      @Override
      protected AbstractView getView() { return articleView; }
 
@@ -51,5 +49,5 @@ Without title somethink is missing.
      protected LinkedHashMap<String, Runnable> getMenuOptions(User user) {
          //implementazione specifica ...
      }
-    \end{lstlisting}
+   \end{lstlisting}
 \end{frame}
