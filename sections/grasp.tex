@@ -1,6 +1,32 @@
-\frame{\frametitle{Pattern GRASP}
-pattern grasp
-}
+\subsection{GRASP controller}
+\begin{frame}
+    \frametitle{Pattern GRASP}
+    \begin{figure}
+        \includegraphics[width=1\textwidth]{img/MV.png}
+    \end{figure}
+    \begin{itemize}
+        \item Si puó notare che giá dalla prima versione é stato implementato un GRASP Controller di tipo \emph{Facade}
+        \item Rappresenta il dominio complessivo di \emph{Article}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Pattern GRASP}
+    \begin{figure}
+        \includegraphics[width=1\textwidth]{img/sequenzaGraspController_before.png}
+    \end{figure}
+    \begin{itemize}
+        \item É il primo oggetto che riceve richieste dalla UI (\emph{ArticleView}) e interagisce con il dominio
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Soluzione Migliorata}
+
+\end{frame}
+
+
+
 \subsection{Information Expert}
     \begin{frame} [fragile]
       \frametitle{Information Expert}
@@ -44,11 +70,3 @@ pattern grasp
         \item Non abbiamo piú tutti i \texttt{get...()} che utilizzavamo prima
     \end{itemize}
 \end{frame}
-
-\subsection{GRASP Controller}
-\frame{\frametitle{GRASP Controller}
-    utilizzati controller Grasp come prima classe toccata dall'esterno, in questo modo il dominio non é
-    a contatto diretto con l'esterno
-  %mostrare UML evidenziando i grasp usati e mostrando che sono i primi toccati dalle altre classi,
-  %isolando la classe di dominio, permettendo di aumentare il riuso
-}
