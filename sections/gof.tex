@@ -9,6 +9,50 @@ principi solid
 
 \subsection{Template Method}
 \begin{frame}
+    \frametitle{Prima del refactor}
+    Duplicazione di codice:
+    \begin{itemize}
+        \item Nelle \emph{View} (poi \texttt{Controller MVC}), per la gestione del menu.
+        \item Nelle classi di salvataggio.
+    \end{itemize}
+    Ma alcune parti sono variabili:
+    \begin{center}
+        \small
+        \begin{tabular}{r|l}
+            Classi \emph{View} / \emph{Controller} & \begin{tabular}{l}
+                Voci del menu \\
+                Azioni delle voci del menu \\
+                Comportamento prima della visione del menu \\
+            \end{tabular} \\
+            \hline
+            Classi di salvataggio & \begin{tabular}{l}
+                Oggetto ``vuoto'' caricato di default \\
+                Tipi diversi degli oggetti caricati / salvati \\
+            \end{tabular}  \\
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Soluzione}
+    \begin{itemize}
+        \item Usare i generici per i tipi diversi nelle classi di persistenza
+        \item Usare \textbf{Template method} e metodi astratti di gancio per le parti variabili:
+    \end{itemize}
+
+    \begin{center}
+        \small
+        \begin{tabular}{r|l}
+            Voci del menu & \texttt{Map<String, Runnable> getMenuOptions()} \\
+            Azioni del menu & \texttt{Map<String, Runnable> getMenuOptions()} \\
+            Logica prima del menu & \texttt{void beforeExecute()} \\
+            \hline
+            Istanza ``vuota'' di default & \texttt{T defaultSaveObject()} \\
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
     \frametitle{Template Method}
     \begin{figure}
          
