@@ -12,7 +12,7 @@ principi solid
     \frametitle{Prima del refactor}
     Duplicazione di codice:
     \begin{itemize}
-        \item Nelle \emph{View} (poi \texttt{Controller MVC}), per la gestione del menu.
+        \item Nelle \emph{View} (poi \emph{Controller MVC}), per la gestione del menu.
         \item Nelle classi di salvataggio.
     \end{itemize}
     Ma alcune parti sono variabili:
@@ -55,25 +55,22 @@ principi solid
 \begin{frame}
     \frametitle{Template Method}
     \begin{figure}
-         
-        \begin{multicols} {2}
-            \includegraphics[width=0.50\textwidth]{img/templateMethodController.png}
-            \columnbreak
-            \includegraphics[width=0.50\textwidth]{img/templateMethodSave.png}
-        \end{multicols}
+        \includegraphics[width=1\textwidth]{img/templateMethod.png}
     \end{figure}
 \end{frame}
 
 \begin{frame} [fragile]
     \frametitle{Uso}
-    \begin{lstlisting}[autogobble, title={\texttt{AbstractMVController.java}}, morekeywords={getView, getMenuOptions}]
+    \begin{lstlisting}[autogobble, title={\texttt{AbstractMVController.java}}, morekeywords={beforeExecute, getView, getMenuOptions}]
     public void execute(User user) {
+        beforeExecute();
         //...
         getView();
         //...
         getMenuOptions():
         //...
     }
+    protected abstract boolean beforeExecute();
     protected abstract LinkedHashMap<String, Runnable> getMenuOptions(User user);
     protected abstract AbstractView getView();
     \end{lstlisting}
@@ -86,6 +83,9 @@ principi solid
 \begin{frame} [fragile]
  \frametitle{Uso}
    \begin{lstlisting}[autogobble, title={\texttt{ArticleMVController.java}}]
+     @Override
+     protected boolean beforeExecute() { return true; }
+
      @Override
      protected AbstractView getView() { return articleView; }
 
