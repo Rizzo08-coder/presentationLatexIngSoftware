@@ -29,6 +29,16 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}
+  Soluzione adottata:
+  \begin{enumerate}
+    \item Definire una \emph{Chain of Responsibility} responsabile della conversione degli oggetti
+    di dominio nelle loro rappresentazioni testuali.
+    \item Creare un'associazione dalla \emph{view} astratta alla \emph{Chain of Responsibility}.
+    \item Fornire tramite la \emph{view} astratta un metodo \texttt{render(obj: Object): String}.
+  \end{enumerate}
+\end{frame}
+
 \subsection{Estrazione dei Controller MVC dalle classi di presentazione}
 \frame{\frametitle{MV $\to$ MVC}
 precedente struttura M-V, controller erano GRASP, mentre ora estratti controller MVC  dalle view,
