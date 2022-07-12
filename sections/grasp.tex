@@ -1,4 +1,6 @@
 \subsection{GRASP controller}
+\beamertitle
+
 \begin{frame}
     \frametitle{Pattern GRASP}
     \begin{figure}
@@ -24,30 +26,32 @@
 
 
 \subsection{Information Expert}
-    \begin{frame} [fragile]
-      \frametitle{Information Expert}
-        \begin{lstlisting}[autogobble, title={\texttt{CategoryController.java}}]
-        private Category searchTree(Category category, String name){
-          for (var child : category.getChildren().entrySet()) {
-            if (child.getValue().getName().equalsIgnoreCase(name)) {
-              return child.getValue();
-            } else if (!child.getValue().isLeaf()) {
-              if (searchTree(child.getValue(), name) != null) {
-                return searchTree(child.getValue(), name);
-              }
-            }
+\beamertitle
+
+\begin{frame} [fragile]
+  \frametitle{Information Expert}
+    \begin{lstlisting}[autogobble, title={\texttt{CategoryController.java}}]
+    private Category searchTree(Category category, String name){
+      for (var child : category.getChildren().entrySet()) {
+        if (child.getValue().getName().equalsIgnoreCase(name)) {
+          return child.getValue();
+        } else if (!child.getValue().isLeaf()) {
+          if (searchTree(child.getValue(), name) != null) {
+            return searchTree(child.getValue(), name);
           }
-          return null;
         }
-        \end{lstlisting}
-      \begin{itemize}
-        \item L'assegnazione della responsabilità di ricercare all'interno dell'albero delle categorie
-        secondo \textbf{Information Expert} andrebbe assegnata alla classe \texttt{Category}, per ridurre
-        l'accoppiamento e garantire l'\emph{incapsulamento}.
-        \item Così non è: la responsabilità è di \texttt{CategoryController}.
-        \item \emph{Code smell}: il codice utilizza molti \emph{getter} di \texttt{Category}.
-      \end{itemize}
-    \end{frame}
+      }
+      return null;
+    }
+    \end{lstlisting}
+  \begin{itemize}
+    \item L'assegnazione della responsabilità di ricercare all'interno dell'albero delle categorie
+    secondo \textbf{Information Expert} andrebbe assegnata alla classe \texttt{Category}, per ridurre
+    l'accoppiamento e garantire l'\emph{incapsulamento}.
+    \item Così non è: la responsabilità è di \texttt{CategoryController}.
+    \item \emph{Code smell}: il codice utilizza molti \emph{getter} di \texttt{Category}.
+  \end{itemize}
+\end{frame}
 
 \begin{frame} [fragile]
     \frametitle{Information Expert}
