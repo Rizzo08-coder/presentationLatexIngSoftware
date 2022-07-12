@@ -2,10 +2,49 @@
 pattern grasp
 }
 \subsection{Information Expert}
-\frame{\frametitle{Information Expert}
-    spostato il metodo SearchTree() dal Grasp Controller CategoryController alla classe di dominio Category.
-    %inserire codice
-}
+    \begin{frame} [fragile]
+      \frametitle{Information Expert}
+        \begin{lstlisting}[autogobble, title={\texttt{CategoryController.java}}]
+            private Category searchTree(Category category, String name) {
+        for (Map.Entry<String, Category> child : category.getChildren().entrySet()) {
+            if (child.getValue().getName().equalsIgnoreCase(name)) {
+                return child.getValue();
+            } else if (!child.getValue().isLeaf()) {
+                if (searchTree(child.getValue(), name) != null) {
+                    return searchTree(child.getValue(), name);
+                }
+            }
+        }
+        return null;
+      }
+        \end{lstlisting}
+      \begin{itemize}
+          \item Questo codice viola \emph{Information Expert} perché
+          viene passato come parametro l'intera classe \emph{Category}, quindi sarebbe meglio
+          mettere le responsabilitá dove sono contenuti i dati, ovvero in \emph{Category}
+          \item Lo si nota anche dai molti \texttt{get...()} presenti
+      \end{itemize}
+    \end{frame}
+
+\begin{frame} [fragile]
+    \frametitle{Information Expert}
+    \begin{lstlisting}[autogobble, title={\texttt{Category.java}}]
+        public Category searchTree(String categoryName) {
+        if (this.name.equalsIgnoreCase(categoryName)) return this;
+        if (isLeaf()) return null;
+        for (Category child : children.values()) {
+            Category lookup = child.searchTree(categoryName);
+            if (lookup != null) return lookup;
+        }
+        return null;
+    }
+    \end{lstlisting}
+    \begin{itemize}
+        \item Si puó notare che sono diminuiti i parametri del metodo, questo aiuta anche la comprensione dello stesso
+        \item Non abbiamo piú tutti i \texttt{get...()} che utilizzavano prima
+    \end{itemize}
+\end{frame}
+
 \subsection{GRASP Controller}
 \frame{\frametitle{GRASP Controller}
     utilizzati controller Grasp come prima classe toccata dall'esterno, in questo modo il dominio non é
