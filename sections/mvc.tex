@@ -1,13 +1,21 @@
 \frame{\frametitle{Separazione Modello-Vista}
   %inserire UML evidenziando separazione modello vista
 }
+
 \subsection{Rimozione \texttt{toString()} dalle classi di dominio}
-\frame{\frametitle{PROBLEMA DEL toString()}
-    rimozione dei toString() dalle classi di dominio e aggiunti nelle classi di presentazione, in modo da
-    rendere completamente indipendente il modello dalla vista aumentando il riuso.\par
-    Modello non deve mai dipendere da vista
-    %mostrare codice originale
-}
+\begin{frame}[fragile]
+  \frametitle{Stato pre-refactor}
+  rimozione dei toString() dalle classi di dominio e aggiunti nelle classi di presentazione, in modo da
+  rendere completamente indipendente il modello dalla vista aumentando il riuso.\par
+  Modello non deve mai dipendere da vista
+  %mostrare codice originale
+  \begin{lstlisting}
+  public static void main() {
+    System.out.println();
+  }
+  \end{lstlisting}
+\end{frame}
+
 \subsection{Estrazione dei Controller MVC dalle classi di presentazione}
 \frame{\frametitle{MV $\to$ MVC}
 precedente struttura M-V, controller erano GRASP, mentre ora estratti controller MVC  dalle view,
