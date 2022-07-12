@@ -104,7 +104,7 @@
         \begin{tabular}{r|l}
             Voci del menu & \texttt{Map<String, Runnable> getMenuOptions()} \\
             Azioni del menu & \texttt{Map<String, Runnable> getMenuOptions()} \\
-            Logica prima del menu & \texttt{void beforeExecute()} \\
+            Logica prima del menu & \texttt{boolean beforeExecute()} \\
             \hline
             Istanza ``vuota'' di default & \texttt{T defaultSaveObject()} \\
         \end{tabular}
@@ -119,10 +119,10 @@
 \end{frame}
 
 \begin{frame} [fragile]
-    \frametitle{Uso}
+    \frametitle{Controller MVC astratto}
     \begin{lstlisting}[autogobble, title={\texttt{AbstractMVController.java}}, morekeywords={beforeExecute, getView, getMenuOptions}]
     public void execute(User user) {
-        if(!beforeExecute()){
+        if (!beforeExecute()) {
         //...
         }
         getView();
@@ -135,13 +135,14 @@
     protected abstract AbstractView getView();
     \end{lstlisting}
     \begin{itemize}
-        \item \texttt{execute(...)} é un metodo Template definito e implementato da \emph{AbstractMVController}
-        \item \texttt{beforeExecute()}, \texttt{getView()} e \texttt{getMenuOptions()} metodi di gancio implementati nella classe figlia \emph{ArticleMVController} con un comportamento specifico
+        \item \texttt{execute(...)} è un metodo Template definito e implementato da \emph{AbstractMVController}
+        \item \texttt{beforeExecute()}, \texttt{getView()} e \texttt{getMenuOptions()} sono metodi di gancio
+        implementati nelle classi figlie per personalizzare il comportamento della classe.
     \end{itemize}
 \end{frame}
 
 \begin{frame} [fragile]
- \frametitle{Uso}
+ \frametitle{Controller MVC concreto}
    \begin{lstlisting}[autogobble, title={\texttt{ArticleMVController.java}}]
      @Override
      protected boolean beforeExecute() { return true; }
@@ -155,6 +156,7 @@
      }
    \end{lstlisting}
     \begin{itemize}
-        \item \texttt{beforeExecute()} ritorna \texttt{true} se deve continuare l'esecuzione e mostrare il menú, \texttt{false} altrimenti
+        \item \texttt{beforeExecute()} ritorna \texttt{true} se deve continuare l'esecuzione
+        e mostrare il menu, \texttt{false} altrimenti.
     \end{itemize}
 \end{frame}
