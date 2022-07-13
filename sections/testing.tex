@@ -1,10 +1,55 @@
-\frame{\frametitle{Testing}
-testing
-}
 \subsection{White-box}
-\frame{\frametitle{White-box}
-    searchTree()
-}
+\beamertitle
+ \begin{frame} [fragile]
+     \frametitle{Codice}
+     \begin{lstlisting}[autogobble, title={\texttt{Category.java}}]
+        public Category searchTree(Strign catName) {
+            if (this.name.equalsIgnoreCase(catName)) return this;
+            for (Category child : children.values()) {
+                Category lookup = child.searchTree(catName);
+                if (lookup != null) return lookup;
+            }
+            return null;
+        }
+     \end{lstlisting}
+     \begin{itemize}
+         \item Metodo che abbiamo deciso di testare siccome é fondamentale per la logica di business
+         \item Contiene una ricorsione, quindi facile generare bug
+         \item Utilizzato testing per cammini indipendenti:
+           \begin{itemize}
+               \item Determinati cammini indipendenti dopo aver costruito flow graph
+               \item Fatti test per ogni cammino indipendente e ulteriori test aggiuntivi
+           \end{itemize}
+     \end{itemize}
+ \end{frame}
+
+ \begin{frame}
+     \frametitle{Flow Graph}
+     \begin{figure}
+         \includegraphics[width=0.9\textwidth]{img/flowGraphSearchTree.png}
+     \end{figure}
+ \end{frame}
+
+\begin{frame}
+    \frametitle{Complessitá Ciclomatica}
+    La complessitá ciclomatica puó essere calcolata:
+    \begin{enumerate}
+        \item Contando le regioni, ovvero $4$
+        \item $12-10+2=4$, archi e nodi
+        \item $3+1=4$, nodi predicato
+    \end{enumerate}
+    Dalla figura la complessitá ciclomatica é pari a 4
+
+    \\
+    Cammini indipendenti:
+    \begin{itemize}
+        \item $1-9-10$
+        \item $1-2-3-7-10$
+        \item $1-2-3-4-5-8-10$
+        \item $1-2-3-4-5-6-3-7-10$
+    \end{itemize}
+\end{frame}
+
 \subsection{Black-box}
 \frame{\frametitle{Black-box}
     testing salvataggio
