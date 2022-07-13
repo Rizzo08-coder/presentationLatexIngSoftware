@@ -50,7 +50,77 @@
     \end{itemize}
 \end{frame}
 
+\begin{frame}
+    \frametitle{Casi di Test}
+    \begin{figure}
+        \includegraphics[width=0.8\textwidth]{img/casiTestWhiteBox.png}
+    \end{figure}
+    \begin{itemize}
+        \item Testing per cammini indipendenti: $1-2-3-4$
+        \item Testing per cicli: $2-7-8$ \\
+            2 $\to$ n=0, 7 $\to $n=1, 8 $\to$ n=2
+        \item Test aggiuntivi: $5-6$
+    \end{itemize}
+\end{frame}
+
+\begin{frame} [fragile]
+    \frametitle{Codice}
+    \begin{lstlisting}[autogobble, title={\texttt{CategoryTest.java}}]
+     @Test
+     void searchTreeSuccessWithNoChildAndSameCategoryName() {
+        Category category = new Category(
+                "name",
+                "description",
+                Collections.emptyMap()
+        );
+        assertEquals(category, category.searchTree("name"));
+     }
+    \end{lstlisting}
+    \begin{itemize}
+        \item Con questo codice testato il caso $1-9-10$
+    \end{itemize}
+\end{frame}
+
 \subsection{Black-box}
-\frame{\frametitle{Black-box}
-    testing salvataggio
-}
+\beamertitle
+\begin{frame}
+    \frametitle{Black-Box}
+    Per il testing Black-Box abbiamo verificato gli scenari principali dei casi d'uso
+    piú rilevanti.
+    In particolare ci é servito per fare regression testing durante l'estrazione
+    degli MVC Controller.
+    \\
+    Per facilitare il testing abbiamo applicato Dependency Inversion, grazie al quale
+    abbiamo potuto implementare degli oggetti fittizi (Mock):
+    \begin{itemize}
+        \item \emph{InMemoryDataContainer}: contenitore dei dati senza persistenza
+        \item \emph{QueueInputProvider}: provider di input non interattivo basato su code
+        \item \emph{Clock.fixed}: ora costante per testing
+    \end{itemize}
+\end{frame}
+
+\begin{frame} [fragile]
+    \frametitle{codice}
+    \begin{lstlisting}[autogobble, title={\texttt{QueueInputProvider.java}}]
+     private Queue<Integer> integerInputs;
+
+     public void setIntegerInputs(Collection<Integer> integerInputs) {
+        this.integerInputs = new LinkedList<>(integerInputs);
+    }
+
+     @Override
+     public int leggiIntero(...) {
+        return integerInputs.remove();
+     }
+    \end{lstlisting}
+    \begin{lstlisting}[autogobble, title={\texttt{ArticleMVControllerTest.java}}]
+    @Test
+    void editArticle() {
+      insertArticle();
+      queueInputProvider.setIntegerInputs(List.of(4, 1, 1, 0));
+      queueInputProvider.setBooleanInputs(List.of(true));
+      articleMVController.execute(...);
+      assertThat(out.toString(), containsString(...));
+    }
+    \end{lstlisting}
+\end{frame}
