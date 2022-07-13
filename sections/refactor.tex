@@ -38,16 +38,16 @@
 \end{frame}
 
 \begin{frame}
-    \frametitle{Extract SuperClass}
+    \frametitle{Extract Superclass}
     \begin{enumerate}
-        \item Creato la superClasse astratta \texttt{AbstractView}
-        \item Fattorizzato i comportamenti comuni delle View in metodi concreti della superClasse
+        \item Creato la superclasse astratta \texttt{AbstractView}
+        \item Fattorizzato i comportamenti comuni delle View in metodi concreti della superclasse
           \begin{itemize}
               \item \texttt{menu()}
               \item \texttt{message()}
               \item \texttt{selectOptionFromCollection()}
           \end{itemize}
-        \item Creato nella superClasse dei metodi concreti di comodo per le View, che delegano ad una Chain of Responsibility la responsabilitá
+        \item Creato nella superclasse dei metodi concreti di comodo per le View, che delegano ad una Chain of Responsibility la responsabilità
               di fornire una rappresentazione testuale degli oggetti
         \item Fatto estendere le View dalla classe astratta \texttt{AbstractView} (es. \texttt{CategoryView extends AbstractView})
         \item Sostituite le chiamate a \texttt{System.out.println(...)} con il metodo \texttt{message()} di \texttt{AbstractView}
