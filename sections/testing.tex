@@ -1,46 +1,47 @@
 \subsection{White-box}
 \beamertitle
- \begin{frame} [fragile]
-     \frametitle{Codice}
-     \begin{lstlisting}[autogobble, title={\texttt{Category.java}}]
-        public Category searchTree(Strign catName) {
-            if (this.name.equalsIgnoreCase(catName)) return this;
-            for (Category child : children.values()) {
-                Category lookup = child.searchTree(catName);
-                if (lookup != null) return lookup;
-            }
-            return null;
-        }
-     \end{lstlisting}
-     \begin{itemize}
-         \item Metodo che abbiamo deciso di testare siccome é fondamentale per la logica di business
-         \item Contiene una ricorsione, quindi facile generare bug
-         \item Utilizzato testing per cammini indipendenti:
-           \begin{itemize}
-               \item Determinati cammini indipendenti dopo aver costruito flow graph
-               \item Fatti test per ogni cammino indipendente e ulteriori test aggiuntivi
-           \end{itemize}
-     \end{itemize}
- \end{frame}
-
- \begin{frame}
-     \frametitle{Flow Graph}
-     \begin{figure}
-         \includegraphics[width=0.9\textwidth]{img/flowGraphSearchTree.png}
-     \end{figure}
- \end{frame}
+\begin{frame} [fragile]
+    \frametitle{Cosa testare?}
+    \begin{lstlisting}[autogobble, title={\texttt{Category.java}}]
+       public Category searchTree(Strign catName) {
+           if (this.name.equalsIgnoreCase(catName)) return this;
+           for (Category child : children.values()) {
+               Category lookup = child.searchTree(catName);
+               if (lookup != null) return lookup;
+           }
+           return null;
+       }
+    \end{lstlisting}
+    Perché proprio questo metodo?
+    \begin{itemize}
+        \item Rilevante nella logica di business
+        \item Ricorsione aggiunge imprevedibilità
+    \end{itemize}
+    Metodologie di determinazione dei casi di test:
+    \begin{itemize}
+        \item \textbf{Cammini indipendenti}
+        \item Per \textbf{cicli}
+        \item Ulteriori casi di test aggiunti durante lo sviluppo
+    \end{itemize}
+\end{frame}
 
 \begin{frame}
-    \frametitle{Complessitá Ciclomatica}
-    La complessitá ciclomatica puó essere calcolata:
-    \begin{enumerate}
-        \item Contando le regioni, ovvero $4$
-        \item $12-10+2=4$, archi e nodi
-        \item $3+1=4$, nodi predicato
-    \end{enumerate}
-    Dalla figura la complessitá ciclomatica é pari a 4
+    \frametitle{Flow Graph}
+    \begin{figure}
+        \includegraphics[width=0.9\textwidth]{img/flowGraphSearchTree.png}
+    \end{figure}
+\end{frame}
 
-    \\
+\begin{frame}
+    \frametitle{Complessità ciclomatica}
+    La complessità ciclomatica può essere calcolata:
+    \begin{enumerate}
+        \item Contando le regioni: {\color{red}$4$}
+        \item Contando archi e nodi: $12-10+2={\color{red}4}$
+        \item Contando i nodi predicato: $3+1={\color{red}4}$
+    \end{enumerate}
+    Quindi $CC={\color{red}4}$.
+
     Cammini indipendenti:
     \begin{itemize}
         \item $1-9-10$
@@ -56,15 +57,19 @@
         \includegraphics[width=0.8\textwidth]{img/casiTestWhiteBox.png}
     \end{figure}
     \begin{itemize}
-        \item Testing per cammini indipendenti: $1-2-3-4$
-        \item Testing per cicli: $2-7-8$ \\
-            2 $\to$ n=0, 7 $\to $n=1, 8 $\to$ n=2
-        \item Test aggiuntivi: $5-6$
+        \item Testing per cammini indipendenti: $1, 2, 3, 4$
+        \item Testing per cicli: $2, 7, 8$
+        \begin{itemize}
+            \item 2 $\to$ \texttt{n=0}
+            \item 7 $\to$ \texttt{n=1}
+            \item 8 $\to$ \texttt{n=2}
+        \end{itemize}
+        \item Test aggiuntivi: $5, 6$
     \end{itemize}
 \end{frame}
 
 \begin{frame} [fragile]
-    \frametitle{Codice}
+    \frametitle{Esempio di caso di test}
     \begin{lstlisting}[autogobble, title={\texttt{CategoryTest.java}}]
      @Test
      void searchTreeSuccessWithNoChildAndSameCategoryName() {
@@ -76,31 +81,33 @@
         assertEquals(category, category.searchTree("name"));
      }
     \end{lstlisting}
+    Con questo codice viene testato:
     \begin{itemize}
-        \item Con questo codice testato il caso $1-9-10$
+        \item Il cammino indipendente $1-9-10$
+        \item Il ciclo eseguito con $0$ iterazioni
     \end{itemize}
 \end{frame}
 
-\subsection{Black-box}
+\subsection{Black box}
 \beamertitle
 \begin{frame}
-    \frametitle{Black-Box}
-    Per il testing Black-Box abbiamo verificato gli scenari principali dei casi d'uso
-    piú rilevanti.
-    In particolare ci é servito per fare regression testing durante l'estrazione
+    \frametitle{Testing funzionale}
+    Per il testing Black box abbiamo verificato gli \emph{scenari principali dei casi d'uso
+    più rilevanti}.
+    In particolare ci è servito per fare \textbf{regression testing} durante l'estrazione
     degli MVC Controller.
-    \\
-    Per facilitare il testing abbiamo applicato Dependency Inversion, grazie al quale
-    abbiamo potuto implementare degli oggetti fittizi (Mock):
+
+    Per facilitare il testing abbiamo applicato \textbf{Dependency Inversion} ove necessario, così da poter
+    usare dei \emph{mock} in fase di test dell'applicazione:
     \begin{itemize}
-        \item \emph{InMemoryDataContainer}: contenitore dei dati senza persistenza
-        \item \emph{QueueInputProvider}: provider di input non interattivo basato su code
-        \item \emph{Clock.fixed}: ora costante per testing
+        \item \texttt{InMemoryDataContainer}: contenitore di dati non persistente.
+        \item \texttt{QueueInputProvider}: provider di input non interattivo basato su code.
+        \item \texttt{Clock.fixed(...)}: orologio costante per \emph{testing time-dependent}.
     \end{itemize}
 \end{frame}
 
 \begin{frame} [fragile]
-    \frametitle{codice}
+    \frametitle{Il mock \texttt{QueueInputProvider}}
     \begin{lstlisting}[autogobble, title={\texttt{QueueInputProvider.java}}]
      private Queue<Integer> integerInputs;
 
@@ -123,4 +130,18 @@
       assertThat(out.toString(), containsString(...));
     }
     \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Altri test funzionali}
+    Sono stati approntati casi di test anche per le funzionalità di:
+    \begin{itemize}
+        \item Salvataggio / caricamento su file tramite \emph{stream} di oggetti
+        \item Caricamento da file .json in modalità \emph{batch}
+    \end{itemize}
+    Per rendere possibili questi test si sono usati:
+    \begin{itemize}
+        \item File temporanei, tramite \texttt{File.createTempFile(...)}
+        \item Sovrascritture a \emph{test runtime} dei valori di \texttt{system.properties} con \texttt{System.getProperties().setProperty(...)}
+    \end{itemize}
 \end{frame}

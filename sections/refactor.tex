@@ -1,24 +1,28 @@
 \subsection{Refactoring - estrazione dei controller MVC}
 \beamertitle
-  \begin{frame}
-      \frametitle{Refactor}
-       Il refactor che abbiamo deciso di dettagliare consiste nell'estrazione di
-       un controller MVC da una classe di view pre-refactor.
-      \\
-      \medskip
-       Pattern utilizzati:
-      \begin{itemize}
-          \item \emph{Extract Class}
-          \item Move Method ...
-          \item ...
-      \end{itemize}
-  \end{frame}
+
+\begin{frame}
+    \frametitle{Refactor}
+    Il refactor che abbiamo deciso di dettagliare consiste nell'estrazione di
+    un controller MVC da una classe di view pre-refactor.
+    \\
+    \medskip
+    In tutto sono stati utilizzati i seguenti pattern di refactor:
+    \begin{itemize}
+        \item \emph{Extract Class}
+        \item \emph{Extract Superclass}
+        \item \emph{Form Template Method}
+        \item \emph{Extract Method}
+        \item \emph{Move Method}
+        \item \emph{Pull Up Method}
+    \end{itemize}
+\end{frame}
 
 \begin{frame}
     \frametitle{Extract Class}
     \begin{enumerate}
-        \item Rifattorizzato nome della View (es. \emph{CategoryView} $\to$ \emph{CategoryMVController})
-        \item Creare nuova classe View (es. \emph{CategoryView})
+        \item Rifattorizzato nome della View (es. \texttt{CategoryView} $\to$ \texttt{CategoryMVController})
+        \item Creare nuova classe View (es. \texttt{CategoryView})
         \item Referenziamo la View all'interno del MVC Controller
         \item Spostare campi e metodi dal MVC controller alla View in base alle responsabilitá:
           \begin{itemize}
@@ -36,7 +40,7 @@
 \begin{frame}
     \frametitle{Extract SuperClass}
     \begin{enumerate}
-        \item Creare la superClasse astratta \emph{AbstractView}
+        \item Creare la superClasse astratta \texttt{AbstractView}
         \item fattorizza i comportamenti comuni delle View in metodi concreti della superClasse
           \begin{itemize}
               \item \texttt{menu()}
@@ -45,8 +49,8 @@
           \end{itemize}
         \item Creare nella superClasse dei metodi concreti di comodo per le View, che delegano ad una Chain of Responsibility la responsabilitá
               di fornire una rappresentazione testuale degli oggetti
-        \item Estendere le View dalla classe astratta \emph{AbstractView} (es. \emph{CategoryView extends AbstractView})
-        \item Sostituisci \texttt{System.out.println(...)} con il metodo \texttt{message()} di \emph{AbstractView}
+        \item Estendere le View dalla classe astratta \texttt{AbstractView} (es. \texttt{CategoryView extends AbstractView})
+        \item Sostituisci \texttt{System.out.println(...)} con il metodo \texttt{message()} di \texttt{AbstractView}
         \item Sostituisci le chiamate implicite ai \texttt{toString()} con i metodi di render
     \end{enumerate}
 \end{frame}
@@ -54,15 +58,15 @@
 \begin{frame}
     \frametitle{Form Template Method}
     \begin{enumerate}
-        \item Creare classe astratta \emph{AbstractMVController}
+        \item Creare classe astratta \texttt{AbstractMVController}
         \item Applicato il pattern GoF \emph{Template Method} al metodo \texttt{execute()}
         \item \emph{Extract Method} sulle parti variabili del metodo \texttt{execute()} all'interno del Controller (conformi alla firma dei metodi di gancio di \emph{AbstractMVController})
-        \item Estendi dalla classe astratta \emph{AbstractMVController}
+        \item Estendi dalla classe astratta \texttt{AbstractMVController}
     \end{enumerate}
 \end{frame}
 
 \begin{frame}
-    \frametitle{esempio UML finale con ArticleView e ArticleMVController}
+    \frametitle{Esempio di risultato con ArticleView e ArticleMVController}
     \begin{figure}
         \includegraphics[width=0.8\textwidth]{img/modello-vista_after.png}
     \end{figure}
