@@ -6,6 +6,7 @@
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.6,0.6,0.6}
+\definecolor{darkgray}{rgb}{0.2,0.2,0.2}
 \definecolor{darkred}{rgb}{0.4,0,0}
 \definecolor{backcolour}{rgb}{0.95,0.94,0.94}
 
@@ -40,7 +41,7 @@
   \vfill
   \centering
   \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
-    \usebeamerfont{title}\insertsubsectionhead\par%
+    \usebeamerfont{title}{\color{darkgray}\normalsize\insertsectionhead}\par{\Large\insertsubsectionhead}\par%
   \end{beamercolorbox}
   \vfill
 \end{frame}
