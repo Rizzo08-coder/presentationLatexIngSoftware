@@ -22,9 +22,9 @@
     \frametitle{Extract Class}
     \begin{enumerate}
         \item Rifattorizzato nome della View (es. \texttt{CategoryView} $\to$ \texttt{CategoryMVController})
-        \item Creare nuova classe View (es. \texttt{CategoryView})
-        \item Referenziamo la View all'interno del MVC Controller
-        \item Spostare campi e metodi dal MVC controller alla View in base alle responsabilitá:
+        \item Creato una nuova classe View (es. \texttt{CategoryView})
+        \item Referenziato la View all'interno del MVC Controller
+        \item Spostati campi e metodi dal MVC controller alla View in base alle responsabilitá:
           \begin{itemize}
               \item \texttt{printHierarchies()}
               \item \texttt{askDescription()}
@@ -40,28 +40,28 @@
 \begin{frame}
     \frametitle{Extract SuperClass}
     \begin{enumerate}
-        \item Creare la superClasse astratta \texttt{AbstractView}
-        \item fattorizza i comportamenti comuni delle View in metodi concreti della superClasse
+        \item Creato la superClasse astratta \texttt{AbstractView}
+        \item Fattorizzato i comportamenti comuni delle View in metodi concreti della superClasse
           \begin{itemize}
               \item \texttt{menu()}
               \item \texttt{message()}
               \item \texttt{selectOptionFromCollection()}
           \end{itemize}
-        \item Creare nella superClasse dei metodi concreti di comodo per le View, che delegano ad una Chain of Responsibility la responsabilitá
+        \item Creato nella superClasse dei metodi concreti di comodo per le View, che delegano ad una Chain of Responsibility la responsabilitá
               di fornire una rappresentazione testuale degli oggetti
-        \item Estendere le View dalla classe astratta \texttt{AbstractView} (es. \texttt{CategoryView extends AbstractView})
-        \item Sostituisci \texttt{System.out.println(...)} con il metodo \texttt{message()} di \texttt{AbstractView}
-        \item Sostituisci le chiamate implicite ai \texttt{toString()} con i metodi di render
+        \item Fatto estendere le View dalla classe astratta \texttt{AbstractView} (es. \texttt{CategoryView extends AbstractView})
+        \item Sostituite le chiamate a \texttt{System.out.println(...)} con il metodo \texttt{message()} di \texttt{AbstractView}
+        \item Sostituite le chiamate implicite ai \texttt{toString()} delle classi di dominio con i metodi di \emph{render}
     \end{enumerate}
 \end{frame}
 
 \begin{frame}
     \frametitle{Form Template Method}
     \begin{enumerate}
-        \item Creare classe astratta \texttt{AbstractMVController}
+        \item Creata una classe astratta \texttt{AbstractMVController}
         \item Applicato il pattern GoF \emph{Template Method} al metodo \texttt{execute()}
-        \item \emph{Extract Method} sulle parti variabili del metodo \texttt{execute()} all'interno del Controller (conformi alla firma dei metodi di gancio di \emph{AbstractMVController})
-        \item Estendi dalla classe astratta \texttt{AbstractMVController}
+        \item Fatto \emph{Extract Method} sulle parti variabili del metodo \texttt{execute()} all'interno del Controller (conformi alla firma dei metodi di gancio di \emph{AbstractMVController})
+        \item Fatto estendere i Controller MVC concreti dalla classe astratta \texttt{AbstractMVController}
     \end{enumerate}
 \end{frame}
 
